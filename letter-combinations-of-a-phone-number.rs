@@ -1,8 +1,15 @@
 use std::collections::HashMap;
-
 struct Solution {}
-
 impl Solution {
+    pub fn get_chars(map: &HashMap<u32, [char; 4]>, i: u32) -> Option<[char; 4]> {
+        match map.get(&i) {
+            Some(phone) => {
+                return Some(*phone);
+            }
+            None => None,
+        }
+    }
+
     pub fn traverse_ch(
         v: &mut Vec<String>,
         m: &HashMap<u32, [char; 4]>,
@@ -10,10 +17,9 @@ impl Solution {
         s: &String,
         idx: usize,
         cidx: usize,
-    ) -> String {
+    ) {
         if idx + 1 > s.len() {
             v.push(sm.to_string());
-            return sm.to_string();
         } else {
             let digit = s.chars().nth(idx).unwrap();
             let digit = digit.to_digit(10).unwrap();
@@ -34,38 +40,22 @@ impl Solution {
                 }
             }
 
-            return Solution::traverse_ch(v, m, &sm2, s, idx + 1, 0);
+            Solution::traverse_ch(v, m, &sm2, s, idx + 1, 0);
         }
     }
-    pub fn traverse(
-        v: &mut Vec<String>,
-        m: &HashMap<u32, [char; 4]>,
-        s: &String,
-        index: u32,
-    ) -> String {
+
+    pub fn traverse(v: &mut Vec<String>, m: &HashMap<u32, [char; 4]>, s: &String, index: u32) {
         if index >= s.len() as u32 {
-            return "".to_string();
         } else {
             let digit = s.chars().nth(index as usize).unwrap();
             let digit = digit.to_digit(10).unwrap();
             let chrs = Solution::get_chars(m, digit).unwrap();
 
-            for i in 1..chrs.len() {
+            for i in 0..chrs.len() {
                 if chrs[i] != '-' {
                     Solution::traverse_ch(v, &m, &"".to_string(), s, 0, i);
                 }
             }
-
-            return Solution::traverse_ch(v, &m, &"".to_string(), s, 0, 0);
-        }
-    }
-
-    pub fn get_chars(map: &HashMap<u32, [char; 4]>, i: u32) -> Option<[char; 4]> {
-        match map.get(&i) {
-            Some(phone) => {
-                return Some(*phone);
-            }
-            None => None,
         }
     }
 
@@ -109,7 +99,7 @@ impl Solution {
 
         // traverse from first number/char
         Solution::traverse(&mut v, &phone_map, &digits, 0);
-        // println!("RES:{:?}", v);
+        println!("RES:{:?}", v);
 
         return v;
     }
