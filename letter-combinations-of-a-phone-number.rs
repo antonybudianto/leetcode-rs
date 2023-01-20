@@ -1,7 +1,5 @@
 use std::collections::HashMap;
-
 struct Solution {}
-
 impl Solution {
     pub fn get_chars(map: &HashMap<i8, [char; 4]>, i: i8) -> Option<[char; 4]> {
         match map.get(&i) {
@@ -75,8 +73,6 @@ impl Solution {
         ]);
 
         let len = digits.len();
-        // println!("len:{}", len);
-
         let mut v = Vec::<String>::new();
 
         if len == 0 {
@@ -91,7 +87,6 @@ impl Solution {
                                 v.push(phone[ph].to_string());
                             }
                         }
-                        // return v;
                     }
                     None => (),
                 }
@@ -101,7 +96,6 @@ impl Solution {
             // traverse from first number/char
             Solution::traverse(&mut v, &phone_map, &digits, 0);
             println!("RES:{:?}", v);
-
             return v;
         }
     }
