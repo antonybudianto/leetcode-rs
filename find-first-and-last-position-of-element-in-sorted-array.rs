@@ -2,15 +2,10 @@ struct Solution {}
 
 impl Solution {
     pub fn bsearch(nums: &Vec<i32>, res: &[i32; 2], target: i32, li: usize, ri: usize) -> [i32; 2] {
-        let len = nums.len();
+        let l = *nums.get(li).unwrap();
+        let r = *nums.get(ri).unwrap();
 
-        if li >= len || ri >= len {
-            return [-1, -1];
-        }
-
-        let l = *nums.get(li as usize).unwrap();
-        let r = *nums.get(ri as usize).unwrap();
-
+        // when left and right mets...
         if li >= ri {
             if l as i32 == target {
                 return [li as i32, ri as i32];
@@ -18,6 +13,7 @@ impl Solution {
             return [-1, -1];
         }
 
+        // finally find the pair
         if l == target && r == target {
             return [li as i32, ri as i32];
         }
