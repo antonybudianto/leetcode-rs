@@ -1,46 +1,30 @@
 struct Solution {}
 
-/**
- * Got TLE at 320/322... WIP
- */
-
 impl Solution {
     pub fn trap(height: Vec<i32>) -> i32 {
         let len = height.len();
-        if len == 0 {
-            return 0;
-        }
-        let mut max = *height.get(0).unwrap();
-        for index in 1..len {
-            let val = *height.get(index).unwrap();
-            if val > max {
-                max = val;
+        let mut left = 0;
+        let mut right = len - 1;
+        let mut l_max = 0;
+        let mut r_max = 0;
+        let mut res = 0;
+
+        while left < right {
+            let a = *height.get(left).unwrap();
+            let b = *height.get(right).unwrap();
+            l_max = std::cmp::max(l_max, a);
+            r_max = std::cmp::max(r_max, b);
+
+            if l_max < r_max {
+                res += l_max - a;
+                left += 1;
+            } else {
+                res += r_max - b;
+                right -= 1;
             }
         }
-        // println!("MAX:{max}");
 
-        let mut count = 0;
-        for index in 0..max {
-            let mut l: i32 = -1;
-            for j in 0..len {
-                let sign = *height.get(j).unwrap();
-                if sign >= max - index {
-                    print!("⬛️");
-                    if l == -1 {
-                        l = j as i32;
-                    } else {
-                        count = count + (j as i32 - l - 1);
-                        l = j as i32;
-                    }
-                } else {
-                    print!("⬜️");
-                }
-            }
-            println!("C:{count}");
-        }
-
-        println!("RES:{count}");
-        return count;
+        return res;
     }
 }
 
